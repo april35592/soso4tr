@@ -107,6 +107,15 @@ const DivStyle = styled.div`
   .imp {
     color: blue;
   }
+
+  & > .schedule {
+    font-size: 14px;
+    & > p {
+      &:nth-of-type(n + 2) {
+        margin-top: 8px;
+      }
+    }
+  }
 `;
 
 const ScheduleComponent = () => {
@@ -159,22 +168,26 @@ const ScheduleComponent = () => {
           getActiveMonth(activeStartDate)
         }
       />
-      {isSchedule.map((item) => {
-        const date = dateToString(item.timestamp.toDate());
-        if (date.substr(0, 7) === isActiveMonth) {
-          if (date.substr(0, 10) === dateToString(isSelectDate).substr(0, 10)) {
-            return (
-              <p key={item.id} className="imp">
-                {date + " " + item.detail}
-              </p>
-            );
+      <div className="schedule">
+        {isSchedule.map((item) => {
+          const date = dateToString(item.timestamp.toDate());
+          if (date.substr(0, 7) === isActiveMonth) {
+            if (
+              date.substr(0, 10) === dateToString(isSelectDate).substr(0, 10)
+            ) {
+              return (
+                <p key={item.id} className="imp">
+                  {date + " : " + item.detail}
+                </p>
+              );
+            } else {
+              return <p key={item.id}>{date + " : " + item.detail}</p>;
+            }
           } else {
-            return <p key={item.id}>{date + " : " + item.detail}</p>;
+            return null;
           }
-        } else {
-          return null;
-        }
-      })}
+        })}
+      </div>
     </DivStyle>
   );
 };
